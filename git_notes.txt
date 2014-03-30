@@ -1,0 +1,300 @@
+git config --global user.name "Yvan Pearson"
+git config --global user.email yvan.pearson@gmail.com
+
+Create a git repository
+git init
+
+git status
+git diff file
+
+Show commit log
+git log
+git log --oneline
+git log --oneline -3 (3 logs)
+git log --oneline -5 (5 logs)
+git log --after="2012-01-01"
+git log --before="2012-01-01"
+git log --since="3 days ago"
+git log --since="2 weeks ago"
+git log --since="2.days"
+git log --since="3.weeks"
+git log --author="john"
+git log --grep="temp"
+git log SHA..SHA --online (range)
+git log SHA.. file (show all changes of file from since first commit)
+git log -p SHA.. file (show all changes with diff, patch)
+git log --stat --summary
+git log --formate=oneline
+git log --formate=short
+git log --formate=medium
+git log --formate=full
+git log --formate=fuller
+git log --formate=email
+git log --formate=raw
+git log --graph
+git log --oneline --graph --all --decorate
+
+git show SHA
+git show --format=oneline HEAD^^
+git show --format=oneline HEAD~3
+
+
+Compare the working directory versus the file referenced by the SHA
+git diff SHA file
+
+Compare a commit versus another commit referenced by the SHA
+git diff SHA..SHA
+
+Compare a commit versus another commit referenced by the SHA, on file
+git diff SHA..SHA file
+
+git diff SHA..HEAD
+
+git diff -w SHA..HEAD (ignore spaces)
+
+git diff -b SHA..HEAD (ignore space changes)
+
+
+
+
+add file to the staging index
+git add file
+
+
+rename a file 
+git mv tours/backpack.html tours/backpackcal.html
+
+
+add and commit all modified files
+git commit -am "msg"
+
+restore file on current branch
+git checkout -- file
+
+unstage file already staged
+git reset HEAD file
+
+
+change last committed msg and/or file(s) (re-commit)
+Can only modify the latest change
+git commit --amend -m "msg"
+
+checkout older version on current branch
+file automatically move to staging index
+git checkout SHA ID -- file
+git diff --staged
+
+revert to previous version
+git revert SHA
+
+move the HEAD pointer
+git reset
+--soft, does not change staging index or working directory
+--mixed, changes the staging index to match repository
+--hard,  changes the staging index and working directory to match repository
+
+cat .git/HEAD
+ref: refs/heads/master
+cat .git/refs/heads/master
+6f9e2852353a54979ac0044d32655eb505feea65b
+
+remove untracked files
+git clean -n OR -f
+n = tells you what it will remove
+f = removes untracked files
+
+.gitignore * ? [abcd] [0-9] 
+#comments
+*.php :ignore all php files
+!index.php :don't ignore index.php
+/assets/videos :ignore all files in videos
+
+ignore compiled files, zip files, logs, PDFs, videos
+
+Global ignore
+git config --global core.execulesfile ~/.gitignore_global
+
+Untrack previously tracked file
+git rm --cached file
+
+Empty directories are not tracked
+To track a directory, add file to empty directory 'touch folder/.gitkeep'
+
+HEAD^ -> parent commit
+HEAD^^ -> parent parent commit
+HEAD^^^ -> parent parent parent commit
+HEAD~1 -> parent commit
+HEAD~2 -> parent parent commit
+HEAD~3 -> parent parent parent commit
+
+
+List files in tree
+git ls-tree HEAD
+git ls-tree master
+git ls-tree master^
+git ls-tree 6511acef410 (tree or folder)
+git ls-tree 6511acef410^
+
+
+HEAD~2 -> parent parent commit
+HEAD~3 -> parent parent parent commit
+
+
+Branches
+
+**Try new ideas
+
+List all branches
+
+git branch
+
+Create branch
+git branch new_feature
+
+Switch branch
+git checkout new_feature
+
+Create and checkout a new brnach
+git checkout -b great_feature
+
+
+Compare two branches
+git diff master..new_feature
+git diff master..new_feature^
+
+git branch --merged
+
+Rename
+git branch -m old_name new_name
+
+
+export PS1='\W$(__git_ps1 "(%s)") >'
+
+Merging
+
+Move to receiver branch first
+
+Make sure receiving branch is clean
+
+git merge branch_name
+git merge --no-ff branch_name (or only ff)
+
+
+
+git merge --abort
+
+fix conflicts manually
+git add file
+git commit
+
+git log --graph --oneline -all --decorate
+
+
+
+
+git stash save "msg"
+
+List stash items
+git stash list
+
+git stash show stash@{0}
+git stash show -p stash@{0}
+git stash pop stash@{0}
+git stash apply stash@{2}
+git stash list
+git stash drop stash@{2}
+git stash clear
+
+
+Remote
+git remote add origin https://github.com/greentea514/myrepo.git
+
+
+ssh-keygen -t rsa -C "your_email@example.com"
+clip < ~/.ssh/id_rsa.pub
+
+git branch (show local)
+git branch -r (show remotes)
+git branch -a (show both)
+
+git push -u origin master
+
+
+Check out new remote branch
+git checkout -b origin/NEW_REMOTE_BRANCH
+
+Get new repo from remote
+
+git clone https://github.com/greentea514/myrepo.git Folder/
+
+After a local commit, check difference to a remote repo
+git diff origin/master..master
+
+Push change onto remote master
+git push
+
+Synchronize local copy of remote branch
+Fetch before you work !
+Fetch before you push !
+Fetch often
+
+Fetch then Merge
+git pull = git fetch + get merge
+
+Checkout remote branch
+git branch name origin/name
+cat .git/config
+
+Create new branch and check it out
+git checkout -b name origin/name
+
+git fetch origin
+
+
+
+
+Work flow
+git checkout master
+git fetch
+git merge origin/master
+git checkout -b branch_name
+git add file
+git commit -m "msg"
+git fetch
+git push -u origin branch
+
+
+
+Merge local branch to local master, then to remote master
+#git checkout master...change to master branch
+#git merge branch_name...merge to master from branch
+#git fetch... make sure origin/master is up to date
+#git push -u origin master...copy changes on to remote repo
+
+
+Update file change to remote master
+#git add files
+#git commit -m "msg"
+#git fetch
+#git push -u origin
+
+Update local master with remote master
+#git fetch
+#git merge origin/master
+
+Copy new local branch on to remote repo
+#git push -u origin NEW_LOCAL_BRANCH
+
+Checkout new remote branch
+#git fetch
+#git checkout branch_name
+
+Delete local branch
+#git branch -d branch_new (only if fully merged)
+#git branch -D branch_new
+
+Delete remote branch
+#git push origin --delete name
+
+Create a new local branch and check it out
+#git checkout -b new_branch
